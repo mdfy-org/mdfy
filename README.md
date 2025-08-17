@@ -17,19 +17,7 @@
 
 # mdfy
 
-**Transform text into beautiful markdown, effortlessly.**
-
 mdfy is a Python library that makes creating markdown documents as simple as writing Python code. Generate reports, documentation, and structured content with an intuitive, object-oriented API.
-
-## ✨ Why mdfy?
-
-- **🎯 Simple**: Create complex markdown with just a few lines of Python
-- **🔧 Flexible**: Each element works independently or together
-- **📊 Data-friendly**: Convert dictionaries, lists, and data structures to markdown
-- **🚀 Fast**: Lightweight with no external dependencies
-- **📚 Well-documented**: Comprehensive documentation and examples
-- **💼 Production-ready**: Used in reports, documentation, and data analysis
-
 
 ## 🚀 Quick Start
 
@@ -37,6 +25,23 @@ mdfy is a Python library that makes creating markdown documents as simple as wri
 
 ```shell
 pip install mdfy
+```
+
+### Usage
+
+```python
+from mdfy import Mdfier, MdHeader, MdText, MdTable
+# Create markdown content
+content = [
+    MdHeader("My Report"),
+    MdText("This quarter's sales were [excellent:bold]!"),
+    MdTable([
+        {"Product": "Laptop", "Sales": 1200, "Growth": "+15%"},
+        {"Product": "Phone", "Sales": 800, "Growth": "+8%"}
+    ])
+]
+# Generate markdown file
+Mdfier("report.md").write(content)
 ```
 
 ## 📖 Documentation
@@ -163,6 +168,7 @@ analysis = [
 - **Table Customization**: Headers, row labels, precision control, transposition
 - **Independent Elements**: Each element can be used standalone
 - **Type Safety**: Full type hints for better IDE support
+- ""Table of Contents**: Automatically generated from headers
 
 ## 🤝 Contributing
 
