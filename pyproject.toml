@@ -13,11 +13,11 @@ readme = "README.md"
 requires-python = ">=3.9,<4.0"
 classifiers = ["Typing :: Typed"]
 urls = {homepage = "https://github.com/argonism/mdfy", repository = "https://github.com/argonism/mdfy"}
-dependencies = [
-    "lark[styled-text]>=1.2.2",
-]
 
 [project.optional-dependencies]
+styled-text = [
+    "lark>=1.2.2",
+]
 dev = [
     "ruff>=0.0.1111",
     "pytest>=7.4.2",
