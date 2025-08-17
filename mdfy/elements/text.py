@@ -23,7 +23,7 @@ class MdText(MdElement):
         >>> from mdfy import MdText
         >>> try:
         >>>   import lark
-        >>> except (ModuleNotFoundError) as e:
+        >>> except ModuleNotFoundError:
         >>>   print("Please install mdfy[styled-text] to use MdText with styles.")
         >>>   exit(0)
         >>>
