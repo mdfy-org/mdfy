@@ -9,10 +9,8 @@
 <p align="center">
     <img alt="test" src="https://img.shields.io/github/actions/workflow/status/argonism/mdfy/test_for_pr.yml?logo=pytest&label=test&color=green">
     <img alt="latest version" src="https://img.shields.io/github/v/tag/argonism/mdfy?logo=pypi&logoColor=white&label=latest%20version">
-    <a href='https://mdfy.readthedocs.io/en/latest/?badge=latest'>
-        <img src='https://readthedocs.org/projects/mdfy/badge/?version=latest' alt='Documentation Status' />
-    </a>
-    <img alt="PyPI monthly downloads" src="https://img.shields.io/pypi/dm/mdfy">
+    <a href='https://mdfy.readthedocs.io/en/latest/?badge=latest'><img src='https://readthedocs.org/projects/mdfy/badge/?version=latest' alt='Documentation Status' /></a>
+    <a href="https://pepy.tech/projects/mdfy"><img src="https://static.pepy.tech/badge/mdfy" alt="PyPI Downloads"></a>
 </p>
 
 # mdfy
