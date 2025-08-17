@@ -21,6 +21,11 @@ class MdText(MdElement):
     Examples:
         >>> # If you have installed mdfy[styled-text]
         >>> from mdfy import MdText
+        >>> try:
+        >>>   import lark
+        >>> except ImportError, ModuleNotFoundError:
+        >>>   raise ImportError("Please install mdfy[styled-text] to use MdText with styles.")
+        >>>
         >>> text = MdText("This is [bold:bold] text.")
         >>> print(text)
         This is **bold** text.

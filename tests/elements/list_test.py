@@ -39,9 +39,7 @@ TEST_CASES = [
             MdText("Plain text"),
         ],
         "numbered": True,
-        "expected_output": (
-            "1. That's a bold statement\n" "1. B\n" "1. Plain text"
-        ),
+        "expected_output": ("1. That's a bold statement\n" "1. B\n" "1. Plain text"),
     },
 ]
 
