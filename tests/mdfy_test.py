@@ -8,7 +8,7 @@ def test_mdfy_write() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         contents = [
             MdHeader("Hello, MDFY!"),
-            MdText("[Life:bold] is [like:italic] a bicycle."),
+            MdText("Life is like a bicycle."),
         ]
         tmp_output_path = Path(tmp_dir, "output.md")
         Mdfier(tmp_output_path).write(contents)
@@ -17,14 +17,14 @@ def test_mdfy_write() -> None:
             lines = f.readlines()
 
             assert lines[0] == "# Hello, MDFY!\n"
-            assert lines[1] == "**Life** is *like* a bicycle.\n"
+            assert lines[1] == "Life is like a bicycle.\n"
 
 
 def test_mdfy_write_with_statement() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         contents = [
             MdHeader("Hello, MDFY!"),
-            MdText("[Life:bold] is [like:italic] a bicycle."),
+            MdText("Life is like a bicycle."),
         ]
         tmp_output_path = Path(tmp_dir, "output.md")
         mdfier = Mdfier(tmp_output_path)
@@ -36,7 +36,7 @@ def test_mdfy_write_with_statement() -> None:
             lines = f.readlines()
 
             assert lines[0] == "# Hello, MDFY!\n"
-            assert lines[1] == "**Life** is *like* a bicycle.\n"
+            assert lines[1] == "Life is like a bicycle.\n"
             assert mdfier.file_object and mdfier.file_object.closed
 
 

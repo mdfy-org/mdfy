@@ -120,14 +120,14 @@ def test_flatten_dict() -> None:
 def test_mdtext_integration() -> None:
     from mdfy import MdText
 
-    data = {"text": MdText("[bold:bold]")}
+    data = {"text": MdText("bold")}
     table = MdTable(data)
     md_output = str(table)
     # fmt: off
     expected_output = (
         "| text |\n"
         "| --- |\n"
-        "| **bold** |"
+        "| bold |"
     )
     # fmt: on
     assert md_output == expected_output

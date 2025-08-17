@@ -456,11 +456,8 @@ wheels = [
 
 [[package]]
 name = "mdfy"
-version = "0.8.1"
+version = "0.9.0"
 source = { editable = "." }
-dependencies = [
-    { name = "lark" },
-]
 
 [package.optional-dependencies]
 dev = [
@@ -484,12 +481,15 @@ docs = [
     { name = "sphinx-design" },
     { name = "sphinx-multiversion" },
 ]
+styled-text = [
+    { name = "lark" },
+]
 
 [package.metadata]
 requires-dist = [
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.9.1" },
     { name = "furo", marker = "extra == 'docs'", specifier = ">=2023.9.10" },
-    { name = "lark", extras = ["styled-text"], specifier = ">=1.2.2" },
+    { name = "lark", marker = "extra == 'styled-text'", specifier = ">=1.2.2" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.5.1" },
     { name = "myst-parser", marker = "extra == 'docs'", specifier = ">=2.0.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.4.2" },
@@ -503,7 +503,7 @@ requires-dist = [
     { name = "tox-gh-actions", marker = "extra == 'dev'", specifier = ">=3.1.3" },
     { name = "xdoctest", marker = "extra == 'dev'", specifier = ">=1.2.0" },
 ]
-provides-extras = ["dev", "docs"]
+provides-extras = ["styled-text", "dev", "docs"]
 
 [[package]]
 name = "mdit-py-plugins"

@@ -34,13 +34,13 @@ TEST_CASES = [
     },
     {
         "items": [
-            MdText("That's a [bold:bold] statement"),
-            MdText("[B:italic]"),
+            MdText("That's a bold statement"),
+            MdText("B"),
             MdText("Plain text"),
         ],
         "numbered": True,
         "expected_output": (
-            "1. That's a **bold** statement\n" "1. *B*\n" "1. Plain text"
+            "1. That's a bold statement\n" "1. B\n" "1. Plain text"
         ),
     },
 ]
