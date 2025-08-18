@@ -4,6 +4,23 @@ from pathlib import Path
 from mdfy import Mdfier, MdHeader, MdText, MdLink, MdElement
 
 
+def test_mdfy_init_from_filepath() -> None:
+    tmp_output_path = Path(tempfile.gettempdir(), "output.md")
+    mdfier = Mdfier(tmp_output_path)
+    assert mdfier._filepath == tmp_output_path
+    assert mdfier._file_object is None
+    assert mdfier._encoding == "utf-8"
+
+
+def test_mdfy_init_from_file_object() -> None:
+    tmp_output_path = Path(tempfile.gettempdir(), "output.md")
+    with tmp_output_path.open("w", encoding="utf-8") as file_object:
+        mdfier = Mdfier(file_object=file_object)
+        assert mdfier._filepath is None
+        assert mdfier._file_object == file_object
+        assert mdfier._encoding == "utf-8"
+
+
 def test_mdfy_write() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         contents = [
@@ -11,7 +28,25 @@ def test_mdfy_write() -> None:
             MdText("Life is like a bicycle."),
         ]
         tmp_output_path = Path(tmp_dir, "output.md")
-        Mdfier(tmp_output_path).write(contents)
+        Mdfier.from_filepath(tmp_output_path).write(contents)
+
+        with tmp_output_path.open(encoding="utf-8") as f:
+            lines = f.readlines()
+
+            assert lines[0] == "# Hello, MDFY!\n"
+            assert lines[1] == "Life is like a bicycle.\n"
+
+
+def test_mdfy_write_using_file_object() -> None:
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        contents = [
+            MdHeader("Hello, MDFY!"),
+            MdText("Life is like a bicycle."),
+        ]
+        tmp_output_path = Path(tmp_dir, "output.md")
+        with tmp_output_path.open("w", encoding="utf-8") as file_object:
+            mdfier = Mdfier(file_object=file_object)
+            mdfier.write(contents)
 
         with tmp_output_path.open(encoding="utf-8") as f:
             lines = f.readlines()
@@ -27,7 +62,7 @@ def test_mdfy_write_with_statement() -> None:
             MdText("Life is like a bicycle."),
         ]
         tmp_output_path = Path(tmp_dir, "output.md")
-        mdfier = Mdfier(tmp_output_path)
+        mdfier = Mdfier.from_filepath(tmp_output_path)
         with mdfier as mdfier:
             for content in contents:
                 mdfier.write(content)
@@ -37,14 +72,14 @@ def test_mdfy_write_with_statement() -> None:
 
             assert lines[0] == "# Hello, MDFY!\n"
             assert lines[1] == "Life is like a bicycle.\n"
-            assert mdfier.file_object and mdfier.file_object.closed
+            assert mdfier._file_object and mdfier._file_object.closed
 
 
 def test_mdfy_write_in_utf8() -> None:
     with tempfile.TemporaryDirectory() as tmp_dir:
         contents = [MdHeader("こんにちは")]
         tmp_output_path = Path(tmp_dir, "output.md")
-        mdier = Mdfier(tmp_output_path)
+        mdier = Mdfier.from_filepath(tmp_output_path)
         with mdier as mdfier:
             for content in contents:
                 mdfier.write(content)
@@ -53,7 +88,7 @@ def test_mdfy_write_in_utf8() -> None:
             lines = f.readlines()
 
             assert lines[0] == "# こんにちは\n"
-            assert mdfier.file_object and mdfier.file_object.closed
+            assert mdfier._file_object and mdfier._file_object.closed
 
 
 def test_mdfy_nested_contents() -> None:
@@ -68,7 +103,7 @@ def test_mdfy_nested_contents() -> None:
             ],
         ]
         tmp_output_path = Path(tmp_dir, "output.md")
-        Mdfier(tmp_output_path).write(contents)
+        Mdfier.from_filepath(tmp_output_path).write(contents)
 
         with tmp_output_path.open(encoding="utf-8") as f:
             lines = f.readlines()
