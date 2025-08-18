@@ -1,11 +1,14 @@
-from io import TextIOWrapper
+from io import TextIOBase
 from pathlib import Path
 from types import TracebackType
 from typing import Optional, Type, Union, Iterable
+import logging
 
 from .elements import MdTableOfContents
 from .utils import flattern
 from .types import MdContents
+
+logger = logging.getLogger(__name__)
 
 
 class Mdfier:
@@ -47,17 +50,61 @@ class Mdfier:
         2 * 2 = 4
     """
 
-    def __init__(self, filepath: Union[str, Path], encoding: str = "utf-8") -> None:
+    def __init__(
+        self,
+        filepath: Optional[Path] = None,
+        file_object: Optional[TextIOBase] = None,
+        encoding: str = "utf-8",
+    ) -> None:
         """Initializes an instance of the Mdfier class to write Markdown content to a file.
 
         Args:
-            filepath (Union[str, Path]): The path to the file.
+            filepath (Path | None): The path to the file. If None, the file_object must be provided.
+            file_object (TextIOBase | None): The file object to write to. If None, the filepath must be provided.
+            encoding (str): The encoding of the file. Defaults to "utf-8".
         """
 
-        self.filepath = Path(filepath)
-        self.filepath.parent.mkdir(parents=True, exist_ok=True)
-        self.file_object: Optional[TextIOWrapper] = None
+        self._filepath = filepath
+        self._file_object: Optional[TextIOBase] = file_object
         self._encoding = encoding
+
+    @classmethod
+    def from_filepath(
+        cls,
+        filepath: Union[str, Path],
+        encoding: str = "utf-8",
+        create_dir_if_not_exist: bool = True,
+    ) -> "Mdfier":
+        """Creates an instance of the Mdfier class to write Markdown content to a file.
+
+        Args:
+            filepath (Union[str, Path]): The path to the file.
+            encoding (str): The encoding of the file.
+
+        Returns:
+            Mdfier: An instance of the Mdfier class.
+        """
+
+        filepath = Path(filepath)
+        if create_dir_if_not_exist:
+            filepath.parent.mkdir(
+                parents=create_dir_if_not_exist, exist_ok=create_dir_if_not_exist
+            )
+
+        return cls(filepath=filepath, encoding=encoding)
+
+    @classmethod
+    def from_file(cls, file_object: TextIOBase) -> "Mdfier":
+        """Creates an instance of the Mdfier class to write Markdown content to a  object.
+
+        Args:
+            file_object (TextIOBase): The file object to write to.
+
+        Returns:
+            Mdfier: An instance of the Mdfier class.
+        """
+
+        return cls(file_object=file_object)
 
     def __enter__(self) -> "Mdfier":
         """Returns the Mdfier instance.
@@ -66,7 +113,14 @@ class Mdfier:
             Mdfier: The Mdfier instance.
         """
 
-        self.file_object = self.filepath.open("w", encoding=self._encoding)
+        if self._filepath is not None:
+            self._file_object = self._filepath.open("w", encoding=self._encoding)
+
+        if self._file_object is None:
+            raise ValueError(
+                "No target file is specified. Please use `from_filepath` or `from_file` to create an instance."
+            )
+
         return self
 
     def __exit__(
@@ -82,9 +136,9 @@ class Mdfier:
             exc_value (Exception): The exception that was raised.
             traceback (Traceback): The traceback of the exception.
         """
-        if self.file_object is None:
+        if self._file_object is None:
             return
-        self.file_object.close()
+        self._file_object.close()
 
     @classmethod
     def stringify(cls, contents: MdContents, separator: str = "\n") -> str:
@@ -116,7 +170,11 @@ class Mdfier:
             contents = [contents]
 
         markdown = self.stringify(contents)
-        if self.file_object is None:
-            self.filepath.write_text(markdown + "\n", encoding=self._encoding)
+        if self._file_object is not None:
+            self._file_object.write(markdown + "\n")
+        elif self._filepath is not None:
+            self._filepath.write_text(markdown + "\n", encoding=self._encoding)
         else:
-            self.file_object.write(markdown + "\n")
+            raise ValueError(
+                "No target file is specified. Please use `from_filepath` or `from_file` to create an instance."
+            )
