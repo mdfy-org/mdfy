@@ -15,9 +15,9 @@ def test_mdfy_init_from_filepath() -> None:
 def test_mdfy_init_from_file_object() -> None:
     tmp_output_path = Path(tempfile.gettempdir(), "output.md")
     with tmp_output_path.open("w", encoding="utf-8") as file_object:
-        mdfier = Mdfier(file_object=file_object)
+        mdfier = Mdfier.from_file(file_object)
         assert mdfier._filepath is None
-        assert mdfier._file_object == file_object
+        assert mdfier._textio == file_object
         assert mdfier._encoding == "utf-8"
 
 
@@ -45,7 +45,7 @@ def test_mdfy_write_using_file_object() -> None:
         ]
         tmp_output_path = Path(tmp_dir, "output.md")
         with tmp_output_path.open("w", encoding="utf-8") as file_object:
-            mdfier = Mdfier(file_object=file_object)
+            mdfier = Mdfier.from_file(file_object=file_object)
             mdfier.write(contents)
 
         with tmp_output_path.open(encoding="utf-8") as f:

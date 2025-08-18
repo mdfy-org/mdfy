@@ -53,20 +53,30 @@ class Mdfier:
     def __init__(
         self,
         filepath: Optional[Path] = None,
-        file_object: Optional[TextIOBase] = None,
+        textio: Optional[TextIOBase] = None,
         encoding: str = "utf-8",
     ) -> None:
         """Initializes an instance of the Mdfier class to write Markdown content to a file.
 
         Args:
             filepath (Path | None): The path to the file. If None, the file_object must be provided.
-            file_object (TextIOBase | None): The file object to write to. If None, the filepath must be provided.
+            textio (TextIOBase | None): The file object to write to. If None, the filepath must be provided.
             encoding (str): The encoding of the file. Defaults to "utf-8".
         """
 
         self._filepath = filepath
-        self._file_object: Optional[TextIOBase] = file_object
+        self._textio = textio
+        self._file_object: Optional[TextIOBase] = None
         self._encoding = encoding
+
+        if self._filepath is None and self._textio is None:
+            raise ValueError(
+                "Either `filepath` or `textio` must be provided to create an instance."
+            )
+        elif self._filepath is not None and self._textio is not None:
+            raise ValueError(
+                "Only one of `filepath` or `textio` can be provided to create an instance."
+            )
 
     @classmethod
     def from_filepath(
@@ -104,7 +114,7 @@ class Mdfier:
             Mdfier: An instance of the Mdfier class.
         """
 
-        return cls(file_object=file_object)
+        return cls(textio=file_object)
 
     def __enter__(self) -> "Mdfier":
         """Returns the Mdfier instance.
@@ -113,13 +123,8 @@ class Mdfier:
             Mdfier: The Mdfier instance.
         """
 
-        if self._filepath is not None:
+        if self._filepath is not None and self._file_object is None:
             self._file_object = self._filepath.open("w", encoding=self._encoding)
-
-        if self._file_object is None:
-            raise ValueError(
-                "No target file is specified. Please use `from_filepath` or `from_file` to create an instance."
-            )
 
         return self
 
@@ -174,6 +179,8 @@ class Mdfier:
             self._file_object.write(markdown + "\n")
         elif self._filepath is not None:
             self._filepath.write_text(markdown + "\n", encoding=self._encoding)
+        elif self._textio is not None:
+            self._textio.write(markdown + "\n")
         else:
             raise ValueError(
                 "No target file is specified. Please use `from_filepath` or `from_file` to create an instance."
