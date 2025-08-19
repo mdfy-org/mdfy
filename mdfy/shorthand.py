@@ -12,6 +12,7 @@ from .elements import (
     MdText,
 )
 from .elements._base import MdElement
+from .elements.text_formatter import MdFormatter
 from .mdfy import Mdfier
 
 
@@ -41,7 +42,7 @@ def link(url: str, text: str = "", title: Optional[str] = None) -> MdLink:
 
 
 def list_item(
-    items: list[Union[str, "MdList"]],
+    items: list[Union[str, MdList]],
     depth: int = 0,
     indent: int = 4,
     numbered: bool = False,
@@ -73,7 +74,7 @@ def table(
 
 
 def text(
-    content: str, formatter: Optional[Any] = None, no_style: bool = False
+    content: str, formatter: Optional[MdFormatter] = None, no_style: bool = False
 ) -> MdText:
     """Creates a text element."""
     return MdText(content, formatter=formatter, no_style=no_style)
@@ -84,12 +85,3 @@ def toc(
 ) -> MdTableOfContents:
     """Creates a table of contents element."""
     return MdTableOfContents(contents, render_all=render_all)
-
-
-def mdfier(
-    filepath: Optional[Any] = None,
-    textio: Optional[Any] = None,
-    encoding: str = "utf-8",
-) -> Mdfier:
-    """Creates an Mdfier instance."""
-    return Mdfier(filepath=filepath, textio=textio, encoding=encoding)
