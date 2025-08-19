@@ -24,7 +24,6 @@ from .shorthand import (
     table,
     text,
     toc,
-    mdfier,
 )
 
 __all__ = [
@@ -53,5 +52,4 @@ __all__ = [
     "table",
     "text",
     "toc",
-    "mdfier",
 ]
