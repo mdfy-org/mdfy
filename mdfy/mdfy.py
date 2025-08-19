@@ -98,7 +98,7 @@ class Mdfier:
         filepath = Path(filepath)
         if create_dir_if_not_exist:
             filepath.parent.mkdir(
-                parents=create_dir_if_not_exist, exist_ok=create_dir_if_not_exist
+                parents=True, exist_ok=True
             )
 
         return cls(filepath=filepath, encoding=encoding)
