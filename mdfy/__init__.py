@@ -13,6 +13,19 @@ from .elements import (
 )
 from .mdfy import Mdfier
 from .types import MdWritableItem, MdContents
+from .shorthand import (
+    code,
+    header,
+    horizontal,
+    image,
+    link,
+    list_item as list,
+    quote,
+    table,
+    text,
+    toc,
+    mdfier,
+)
 
 __all__ = [
     "MdCode",
@@ -29,4 +42,16 @@ __all__ = [
     "Mdfier",
     "MdWritableItem",
     "MdContents",
+    # Shorthand functions
+    "code",
+    "header",
+    "horizontal",
+    "image",
+    "link",
+    "list",
+    "quote",
+    "table",
+    "text",
+    "toc",
+    "mdfier",
 ]
