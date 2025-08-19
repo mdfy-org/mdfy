@@ -15,7 +15,7 @@ from .elements._base import MdElement
 from .mdfy import Mdfier
 
 
-def code(code:str, inline: bool = False, syntax: str = "") -> MdCode:
+def code(code: str, inline: bool = False, syntax: str = "") -> MdCode:
     """Creates a code element."""
     return MdCode(code, inline=inline, syntax=syntax)
 
@@ -40,7 +40,12 @@ def link(url: str, text: str = "", title: Optional[str] = None) -> MdLink:
     return MdLink(url, text=text, title=title)
 
 
-def list_item(items: list[Union[str, "MdList"]], depth: int = 0, indent: int = 4, numbered: bool = False) -> MdList:
+def list_item(
+    items: list[Union[str, "MdList"]],
+    depth: int = 0,
+    indent: int = 4,
+    numbered: bool = False,
+) -> MdList:
     """Creates a list item element."""
     return MdList(items, depth=depth, indent=indent, numbered=numbered)
 
@@ -50,21 +55,41 @@ def quote(content: Union[str, MdElement]) -> MdQuote:
     return MdQuote(content)
 
 
-def table(data: Union[dict[str, Any], list[dict[str, Any]]], header: Optional[list[str]] = None, row_labels: Optional[list[str]] = None, transpose: bool = False, precision: Optional[int] = None) -> MdTable:
+def table(
+    data: Union[dict[str, Any], list[dict[str, Any]]],
+    header: Optional[list[str]] = None,
+    row_labels: Optional[list[str]] = None,
+    transpose: bool = False,
+    precision: Optional[int] = None,
+) -> MdTable:
     """Creates a table element."""
-    return MdTable(data, header=header, row_labels=row_labels, transpose=transpose, precision=precision)
+    return MdTable(
+        data,
+        header=header,
+        row_labels=row_labels,
+        transpose=transpose,
+        precision=precision,
+    )
 
 
-def text(content: str, formatter: Optional[Any] = None, no_style: bool = False) -> MdText:
+def text(
+    content: str, formatter: Optional[Any] = None, no_style: bool = False
+) -> MdText:
     """Creates a text element."""
     return MdText(content, formatter=formatter, no_style=no_style)
 
 
-def toc(contents: Optional[list[Any]] = None, render_all: bool = False) -> MdTableOfContents:
+def toc(
+    contents: Optional[list[Any]] = None, render_all: bool = False
+) -> MdTableOfContents:
     """Creates a table of contents element."""
     return MdTableOfContents(contents, render_all=render_all)
 
 
-def mdfier(filepath: Optional[Any] = None, textio: Optional[Any] = None, encoding: str = "utf-8") -> Mdfier:
+def mdfier(
+    filepath: Optional[Any] = None,
+    textio: Optional[Any] = None,
+    encoding: str = "utf-8",
+) -> Mdfier:
     """Creates an Mdfier instance."""
     return Mdfier(filepath=filepath, textio=textio, encoding=encoding)
