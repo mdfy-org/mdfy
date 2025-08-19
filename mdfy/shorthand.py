@@ -61,7 +61,7 @@ def table(
     header: Optional[list[str]] = None,
     row_labels: Optional[list[str]] = None,
     transpose: bool = False,
-    precision: Optional[int] = None,
+    precision: Union[None, int] = None,
 ) -> MdTable:
     """Creates a table element."""
     return MdTable(
