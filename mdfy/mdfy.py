@@ -87,6 +87,7 @@ class Mdfier:
         Args:
             filepath (Union[str, Path]): The path to the file.
             encoding (str): The encoding of the file.
+            create_dir_if_not_exist (bool): If True, creates the directory if it does not exist. Defaults to True.
 
         Returns:
             Mdfier: An instance of the Mdfier class.
