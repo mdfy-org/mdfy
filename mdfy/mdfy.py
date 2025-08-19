@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 class Mdfier:
     """Writes Markdown content to a file.
 
-    Attributes:
-        filepath (Path): The path to the file.
-
     Examples:
         >>> from mdfy import Mdfier, MdHeader, MdQuote, MdText
         >>> # Writing Markdown content to a file
@@ -105,10 +102,10 @@ class Mdfier:
 
     @classmethod
     def from_file(cls, file_object: TextIOBase) -> "Mdfier":
-        """Creates an instance of the Mdfier class to write Markdown content to a  object.
+        """Creates an instance of the Mdfier class to write Markdown content to a file object.
 
         Args:
-            file_object (TextIOBase): The file object to write to.
+            file_object (TextIOBase): The file object or TextIOBase object to write to.
 
         Returns:
             Mdfier: An instance of the Mdfier class.
