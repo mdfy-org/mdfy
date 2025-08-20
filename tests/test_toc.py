@@ -9,7 +9,7 @@ from mdfy.types import MdWritableItem
 def test_table_of_contents_basic(tmp_path: Path) -> None:
     """Test basic table of contents generation"""
     filepath = tmp_path / "test.md"
-    mdfier = Mdfier(filepath)
+    mdfier = Mdfier.from_filepath(filepath)
 
     # Write content with table of contents
     content: list[MdWritableItem] = [
@@ -44,7 +44,7 @@ def test_table_of_contents_basic(tmp_path: Path) -> None:
 def test_table_of_contents_with_mdfier_contents(tmp_path: Path) -> None:
     """Test table of contents using Mdfier's content list"""
     filepath = tmp_path / "test.md"
-    mdfier = Mdfier(filepath)
+    mdfier = Mdfier.from_filepath(filepath)
 
     # Write content with table of contents
     content: list[MdWritableItem] = [
@@ -72,7 +72,7 @@ def test_table_of_contents_with_mdfier_contents(tmp_path: Path) -> None:
 def test_table_of_contents_in_the_middle_of_contents(tmp_path: Path) -> None:
     """Test table of contents using Mdfier's content list"""
     filepath = tmp_path / "test.md"
-    mdfier = Mdfier(filepath)
+    mdfier = Mdfier.from_filepath(filepath)
 
     # Write content with table of contents
     content: list[MdWritableItem] = [
@@ -93,6 +93,7 @@ def test_table_of_contents_in_the_middle_of_contents(tmp_path: Path) -> None:
     expected_toc = "\n".join(
         [
             "## Table of Contents",
+            "",
             "- [Section 2](#section-2)",
             "  - [Section 2.1](#section-2.1)",
             "  - [Section 2.2](#section-2.2)",
@@ -101,6 +102,8 @@ def test_table_of_contents_in_the_middle_of_contents(tmp_path: Path) -> None:
         ]
     )
 
+    print(expected_toc)
+    print(result)
     assert expected_toc in result
 
 

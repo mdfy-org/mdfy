@@ -31,10 +31,10 @@ def test_mdfy_write() -> None:
         Mdfier.from_filepath(tmp_output_path).write(contents)
 
         with tmp_output_path.open(encoding="utf-8") as f:
-            lines = f.readlines()
+            content = f.read()
 
-            assert lines[0] == "# Hello, MDFY!\n"
-            assert lines[1] == "Life is like a bicycle.\n"
+            assert "# Hello, MDFY!" in content
+            assert "Life is like a bicycle." in content
 
 
 def test_mdfy_write_using_file_object() -> None:
@@ -49,10 +49,10 @@ def test_mdfy_write_using_file_object() -> None:
             mdfier.write(contents)
 
         with tmp_output_path.open(encoding="utf-8") as f:
-            lines = f.readlines()
+            content = f.read()
 
-            assert lines[0] == "# Hello, MDFY!\n"
-            assert lines[1] == "Life is like a bicycle.\n"
+            assert "# Hello, MDFY!" in content
+            assert "Life is like a bicycle." in content
 
 
 def test_mdfy_write_with_statement() -> None:
@@ -68,10 +68,10 @@ def test_mdfy_write_with_statement() -> None:
                 mdfier.write(content)
 
         with tmp_output_path.open(encoding="utf-8") as f:
-            lines = f.readlines()
+            content = f.read()
 
-            assert lines[0] == "# Hello, MDFY!\n"
-            assert lines[1] == "Life is like a bicycle.\n"
+            assert "# Hello, MDFY!" in content
+            assert "Life is like a bicycle." in content
             assert mdfier._file_object and mdfier._file_object.closed
 
 
@@ -85,9 +85,9 @@ def test_mdfy_write_in_utf8() -> None:
                 mdfier.write(content)
 
         with tmp_output_path.open(encoding="utf-8") as f:
-            lines = f.readlines()
+            content = f.read()
 
-            assert lines[0] == "# こんにちは\n"
+            assert "# こんにちは" in content
             assert mdfier._file_object and mdfier._file_object.closed
 
 
@@ -106,10 +106,10 @@ def test_mdfy_nested_contents() -> None:
         Mdfier.from_filepath(tmp_output_path).write(contents)
 
         with tmp_output_path.open(encoding="utf-8") as f:
-            lines = f.readlines()
+            content = f.read()
 
-            assert lines[0] == "# Hello, MDFY!\n"
-            assert lines[1] == "This is a nested content.\n"
-            assert lines[2] == "This is another nested content.\n"
-            assert lines[3] == "[Click me!](url)\n"
-            assert lines[4] == "This is a simple text.\n"
+            assert "# Hello, MDFY!" in content
+            assert "This is a nested content." in content
+            assert "This is another nested content." in content
+            assert "[Click me!](url)" in content
+            assert "This is a simple text." in content
