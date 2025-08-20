@@ -69,26 +69,29 @@ Mdfier("report.md").write(content)
 ### Basic Usage
 
 ```python
-from mdfy import Mdfier, MdHeader, MdText, MdTable
+import mdfy as m
 
 # Create content
 content = [
-    MdHeader("My Report"),
-    MdText("This quarter's sales were [excellent:bold]!"),
-    MdTable([
-        {"Product": "Laptop", "Sales": 1200, "Growth": "+15%"},
-        {"Product": "Phone", "Sales": 800, "Growth": "+8%"}
-    ])
+    m.header("My Report"),
+    m.text("This quarter's sales were [excellent:bold]!"),
+    m.table(
+        [
+            {"Product": "Laptop", "Sales": 1200, "Growth": "+15%"},
+            {"Product": "Phone", "Sales": 800, "Growth": "+8%"},
+        ]
+    ),
 ]
 
 # Generate markdown file
-Mdfier("report.md").write(content)
+m.Mdfier.from_filepath("report.md").write(content)
 ```
 
 **Output:**
 ```markdown
 # My Report
-This quarter's sales were **excellent**!
+
+This quarter's sales were [excellent:bold]!
 
 | Product | Sales | Growth |
 | --- | --- | --- |
@@ -115,33 +118,35 @@ MdList(items, numbered=True)                  # • Bullet or 1. Numbered lists
 MdCode("print('hello')", syntax="python")     # Syntax-highlighted code blocks
 ```
 
+You can use a shortened syntax for convenience:
+
+```python
+import mdfy as m
+# Create a header
+header = m.header("My Report", level=1)        # # My Report
+text = m.text("This quarter's sales were [excellent:bold]!")
+table = m.table([
+    {"Product": "Laptop", "Sales": 1200, "Growth": "+15%"},
+    {"Product": "Phone", "Sales": 800, "Growth": "+8%"}
+])
+```
+
 ## 💡 Real-world Examples
 
 ### Dynamic Reports
+
 ```python
+import mdfy as m
+
 def generate_sales_report(sales_data):
     total = sum(item['amount'] for item in sales_data)
     return [
-        MdHeader("Sales Report"),
-        MdText(f"Total Revenue: [${total:,}:bold]"),
-        MdTable(sales_data, precision=2)
+        m.header("Sales Report"),
+        m.text(f"Total Revenue: [${total:,}:bold]"),
+        m.table(sales_data, precision=2)
     ]
 
-Mdfier("sales.md").write(generate_sales_report(quarterly_data))
-```
-
-### Documentation
-```python
-content = [
-    MdHeader("API Documentation"),
-    MdText("Welcome to our [REST API:bold] documentation."),
-    MdHeader("Endpoints", level=2),
-    MdList([
-        "GET /users - List all users",
-        "POST /users - Create user",
-        "DELETE /users/{id} - Delete user"
-    ])
-]
+m.Mdfier.from_filepath("sales.md").write(generate_sales_report(quarterly_data))
 ```
 
 ### Data Analysis
