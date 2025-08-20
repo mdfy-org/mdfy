@@ -142,7 +142,7 @@ class Mdfier:
         self._file_object.close()
 
     @classmethod
-    def stringify(cls, contents: MdContents, separator: str = "\n") -> str:
+    def stringify(cls, contents: MdContents, separator: str = "\n\n") -> str:
         """Converts the given Markdown content to a string.
 
         Args:
