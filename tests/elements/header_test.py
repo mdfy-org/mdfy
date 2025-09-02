@@ -22,3 +22,14 @@ def test_mdheader_formatting(
     else:
         header = MdHeader(input_text)
     assert str(header) == expected_output
+
+
+def test_mdheader_invalid_level_warning() -> None:
+    with pytest.warns(UserWarning, match="Header level 10 is out of range. Setting to 1."):
+        header = MdHeader("Invalid Level Header", level=10)
+    assert str(header) == "# Invalid Level Header"
+
+
+def test_mdheader_indent() -> None:
+    header = MdHeader("Indented Header", level=2, indent="  ")
+    assert str(header) == "  ## Indented Header"
