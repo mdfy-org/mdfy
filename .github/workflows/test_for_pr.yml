@@ -5,13 +5,12 @@ on:
     paths:
       - 'mdfy'
       - 'tests'
-      - '**/*.py'
+      - '**.py'
       - 'tox.ini'
       - 'pyproject.toml'
-      - 'poetry.lock'
-      - '.github/workflows/test_for_pr.yml'
-    branches:
-      - main
+      - '.github/workflows/*.yml'
+      - '!**.md'
+    types: [opened, synchronize, reopened, edited]
   push:
     branches:
       - main
