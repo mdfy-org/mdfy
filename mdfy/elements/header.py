@@ -34,7 +34,7 @@ class MdHeader(MdElement):
         self.content = content
         if level < 1 or level > 6:
             warnings.warn(
-                f"Header level {level} is out of range. Setting to 1."
+                f"Header level {level} is out of range"
             )
 
         self.level = level
