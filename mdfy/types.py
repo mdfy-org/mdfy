@@ -1,4 +1,5 @@
 """Type definitions for mdfy package."""
+
 from __future__ import annotations
 from typing import Union, Iterable
 
