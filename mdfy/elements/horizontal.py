@@ -3,6 +3,9 @@ import warnings
 from ._base import MdElement
 
 
+_ACCEPTABLE_SYMBOLS = {"*", "-", "_"}
+
+
 class MdHorizontal(MdElement):
     """Represents a Markdown horizontal rule.
 
@@ -21,18 +24,21 @@ class MdHorizontal(MdElement):
         ---
     """
 
-    def __init__(self, content: str = "***") -> None:
+    def __init__(self, content: str = "***", indent: str = "") -> None:
         """Initializes an instance of the MdHorizontal class to represent a Markdown horizontal rule.
 
         Args:
             content (str, optional): The content of the horizontal rule. Defaults to "***".
         """
-        if not isinstance(content, str):
-            warnings.warn(
-                f"Horizontal content is not a string, converting to string: {content}"
-            )
-            content = str(content)
+        content_chars = set(list(content))
+        if len(content_chars) > 1:
+            warnings.warn(f"Horizontal content should be made of a single character")
+        if not set(list(content)) <= _ACCEPTABLE_SYMBOLS:
+            warnings.warn(f"Horizontal content is not a valid character")
+        if len(content) < 3:
+            warnings.warn(f"Horizontal content not long enough")
         self.content = content
+        self.indent = indent
 
     def __str__(self) -> str:
-        return f"\n{self.content}\n"
+        return f"\n{self.indent}{self.content}\n"
