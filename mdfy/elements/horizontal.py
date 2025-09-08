@@ -30,14 +30,13 @@ class MdHorizontal(MdElement):
         Args:
             content (str, optional): The content of the horizontal rule. Defaults to "***".
         """
-        if set(content) in _ACCEPTABLE_SYMBOLS:
-            warnings.warn(
-                f"Horizontal content is not a valid character"
-            )
+        content_chars = set(list(content))
+        if len(content_chars) > 1:
+            warnings.warn(f"Horizontal content should be made of a single character")
+        if not set(list(content)) <= _ACCEPTABLE_SYMBOLS:
+            warnings.warn(f"Horizontal content is not a valid character")
         if len(content) < 3:
-            warnings.warn(
-                f"Horizontal content not long enough"
-            )
+            warnings.warn(f"Horizontal content not long enough")
         self.content = content
         self.indent = indent
 
