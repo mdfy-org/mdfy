@@ -1,3 +1,5 @@
+import warnings
+
 from ._base import MdElement
 
 
@@ -7,6 +9,7 @@ class MdHeader(MdElement):
     Attributes:
         content (str): The content of the header.
         level (int): The header level.
+        indent (str): The indentation for the header.
 
     Examples:
         >>> from mdfy.elements import MdHeader
@@ -20,15 +23,22 @@ class MdHeader(MdElement):
         ## This is a header
     """
 
-    def __init__(self, content: str, level: int = 1) -> None:
+    def __init__(self, content: str, level: int = 1, indent: str = "") -> None:
         """Initializes an instance of the MdHeader class to represent a Markdown header.
 
         Args:
             content (str): The content of the header.
-            level (int, optional): The header level. Defaults to 1.
+            level (int, optional): The header level. Should be in a range of 6 >= level >= 1. Defaults to 1.
+            indent (str, optional): The indentation for the header. Defaults to "".
         """
         self.content = content
+        if level < 1 or level > 6:
+            warnings.warn(
+                f"Header level {level} is out of range"
+            )
+
         self.level = level
+        self.indent = indent
 
     def __str__(self) -> str:
         """Returns a string representation of the header in Markdown format.
@@ -36,4 +46,4 @@ class MdHeader(MdElement):
         Returns:
             str: String representation of the header.
         """
-        return "#" * self.level + " " + self.content
+        return self.indent + "#" * self.level + " " + self.content
